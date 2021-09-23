@@ -1,4 +1,4 @@
-[gd_scene load_steps=69 format=2]
+[gd_scene load_steps=70 format=2]
 
 [ext_resource path="res://Art/Pixel Adventure 1/Main Characters/Ninja Frog/Jump (32x32).png" type="Texture" id=1]
 [ext_resource path="res://Art/Pixel Adventure 1/Main Characters/Ninja Frog/Run (32x32).png" type="Texture" id=2]
@@ -373,6 +373,9 @@ nodes/y_sign/node = SubResource( 58 )
 nodes/y_sign/position = Vector2( 210, 0 )
 node_connections = [ "output", 0, "double_jump", "double_jump", 0, "y_sign", "double_jump", 1, "Animation 3", "y_sign", 0, "Animation", "y_sign", 1, "x_sign", "y_sign", 2, "Animation 2" ]
 
+[sub_resource type="RectangleShape2D" id=60]
+extents = Vector2( 6, 1 )
+
 [node name="Player" type="KinematicBody2D"]
 collision_layer = 8
 script = ExtResource( 8 )
@@ -380,7 +383,7 @@ script = ExtResource( 8 )
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 42 )
 animation = "idle"
-frame = 5
+frame = 2
 playing = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -415,4 +418,13 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="JumpHitbox" type="Area2D" parent="."]
+position = Vector2( 0, 15 )
+collision_layer = 0
+collision_mask = 2048
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="JumpHitbox"]
+shape = SubResource( 60 )
+
 [connection signal="changed_state" from="." to="StateLabel" method="_on_Player_changed_state"]
+[connection signal="area_shape_entered" from="JumpHitbox" to="." method="_on_JumpHitbox_area_shape_entered"]

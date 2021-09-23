@@ -2,12 +2,15 @@ extends KinematicBody2D
 
 export(float) var move_speed = 200
 export(float) var jump_impulse = 600
+export(float) var enemy_bounce_impulse = 400
 export(int) var max_jumps = 2
+export(float) var jump_damage = 1
 
 enum STATE { IDLE, RUN, JUMP, DOUBLE_JUMP}
 
 onready var animated_sprite = $AnimatedSprite
 onready var animation_tree = $AnimationTree
+onready var jump_hitbox = $JumpHitbox
 
 signal changed_state(new_state_string, new_state_id)
 
@@ -70,6 +73,23 @@ func jump():
 	velocity.y = -jump_impulse
 	jumps += 1
 	
+func _on_JumpHitbox_area_shape_entered(area_id, area, area_shape, local_shape):
+	var enemy = area.owner
+	
+	if(enemy is Enemy && enemy.can_be_hit):
+		if(jump_hitbox.global_position.y > area.global_position.y):
+			print("jump HB " + str(jump_hitbox.global_position))
+			print("body Pos" + str(area.global_position))
+			
+			# Jump Attack
+			velocity.y = -enemy_bounce_impulse
+			
+			enemy.get_hit(jump_damage)
+	
+	
+	pass # Replace with function body.
+
+	
 # SETTERS
 func set_current_state(new_state):
 	match(new_state):
@@ -81,3 +101,5 @@ func set_current_state(new_state):
 	
 	current_state = new_state
 	emit_signal("changed_state", STATE.keys()[new_state], new_state)
+
+

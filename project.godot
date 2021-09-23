@@ -8,6 +8,16 @@
 
 config_version=4
 
+_global_script_classes=[ {
+"base": "KinematicBody2D",
+"class": "Enemy",
+"language": "GDScript",
+"path": "res://Characters/Enemies/Enemy.gd"
+} ]
+_global_script_class_icons={
+"Enemy": ""
+}
+
 [application]
 
 config/name="PixelAdventureProject-Tutorial"
@@ -82,6 +92,9 @@ jump={
 2d_physics/layer_1="World"
 2d_physics/layer_4="Player"
 2d_physics/layer_5="Enemy"
+2d_physics/layer_7="PlayerHitbox"
+2d_physics/layer_11="EnemyHitbox"
+2d_physics/layer_12="JumpHurtbox"
 
 [physics]
 
