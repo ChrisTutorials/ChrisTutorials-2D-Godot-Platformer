@@ -1,16 +1,18 @@
-extends KinematicBody2D
+extends "res://Characters/Character.gd"
 
 export(float) var move_speed = 200
 export(float) var jump_impulse = 600
 export(float) var enemy_bounce_impulse = 400
+export(float) var knockback_collision_speed = 50
 export(int) var max_jumps = 2
 export(float) var jump_damage = 1
 
-enum STATE { IDLE, RUN, JUMP, DOUBLE_JUMP}
+enum STATE { IDLE, RUN, JUMP, DOUBLE_JUMP, HIT}
 
 onready var animated_sprite = $AnimatedSprite
 onready var animation_tree = $AnimationTree
 onready var jump_hitbox = $JumpHitbox
+onready var invincible_timer = $InvincibleTimer
 
 signal changed_state(new_state_string, new_state_id)
 
@@ -21,18 +23,40 @@ var jumps = 0
 
 func _physics_process(delta):
 	var input = get_player_input()
-	adjust_flip_direction(input)
 	
-	velocity = Vector2(
-		input.x * move_speed,
-		min(velocity.y + GameSettings.gravity, GameSettings.terminal_velocity)
-	)
 	
 	velocity = move_and_slide(velocity, Vector2.UP)
 	
 	set_anim_parameters()
 	
-	pick_next_state()
+	match(current_state):
+		STATE.IDLE, STATE.RUN, STATE.JUMP, STATE.DOUBLE_JUMP:
+			velocity = normal_move(input)
+			pick_next_state()
+		STATE.HIT:
+			velocity = hit_move()
+	
+func normal_move(input):
+	adjust_flip_direction(input)
+	
+	return Vector2(
+		input.x * move_speed,
+		min(velocity.y + GameSettings.gravity, GameSettings.terminal_velocity)
+	)
+
+# Knockback where player has no control over movement temporarily
+func hit_move():
+	var knockback_direction : Vector2
+	
+	# Facing Left
+	if(animated_sprite.flip_h):
+		knockback_direction = Vector2.RIGHT
+	else:
+		knockback_direction = Vector2.LEFT
+		
+	knockback_direction = knockback_direction.normalized()
+		
+	return knockback_collision_speed * knockback_direction
 	
 func adjust_flip_direction(input : Vector2):
 	if(sign(input.x) == 1):
@@ -89,6 +113,14 @@ func _on_JumpHitbox_area_shape_entered(area_id, area, area_shape, local_shape):
 	
 	pass # Replace with function body.
 
+func get_hit(damage : float):
+	if(invincible_timer.is_stopped()):
+		self.health -= damage
+		self.current_state = STATE.HIT
+		invincible_timer.start()
+	
+func on_hit_finished():
+	self.current_state = STATE.IDLE
 	
 # SETTERS
 func set_current_state(new_state):
@@ -98,6 +130,8 @@ func set_current_state(new_state):
 		STATE.DOUBLE_JUMP:
 			jump()
 			animation_tree.set("parameters/double_jump/active", true)
+		STATE.HIT:
+			animation_tree.set("parameters/hit/active", true)
 	
 	current_state = new_state
 	emit_signal("changed_state", STATE.keys()[new_state], new_state)

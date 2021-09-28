@@ -1,4 +1,4 @@
-[gd_scene load_steps=70 format=2]
+[gd_scene load_steps=72 format=2]
 
 [ext_resource path="res://Art/Pixel Adventure 1/Main Characters/Ninja Frog/Jump (32x32).png" type="Texture" id=1]
 [ext_resource path="res://Art/Pixel Adventure 1/Main Characters/Ninja Frog/Run (32x32).png" type="Texture" id=2]
@@ -261,8 +261,7 @@ tracks/0/keys = {
 }
 
 [sub_resource type="Animation" id=46]
-length = 0.05
-loop = true
+length = 0.4
 tracks/0/type = "value"
 tracks/0/path = NodePath("AnimatedSprite:animation")
 tracks/0/interp = 1
@@ -274,6 +273,20 @@ tracks/0/keys = {
 "transitions": PoolRealArray( 1 ),
 "update": 1,
 "values": [ "hit" ]
+}
+tracks/1/type = "method"
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0.4 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "on_hit_finished"
+} ]
 }
 
 [sub_resource type="Animation" id=47]
@@ -331,49 +344,60 @@ animation = "fall"
 animation = "double_jump"
 
 [sub_resource type="AnimationNodeAnimation" id=52]
+animation = "hit"
+
+[sub_resource type="AnimationNodeAnimation" id=53]
 animation = "jump"
 
-[sub_resource type="AnimationNodeOneShot" id=53]
+[sub_resource type="AnimationNodeOneShot" id=54]
 fadein_time = 0.0
 fadeout_time = 0.0
 
-[sub_resource type="AnimationNodeAnimation" id=54]
-animation = "idle"
-
-[sub_resource type="AnimationNodeAnimation" id=55]
-animation = "run"
+[sub_resource type="AnimationNodeOneShot" id=55]
+fadein_time = 0.0
+fadeout_time = 0.0
 
 [sub_resource type="AnimationNodeAnimation" id=56]
+animation = "idle"
+
+[sub_resource type="AnimationNodeAnimation" id=57]
 animation = "run"
 
-[sub_resource type="AnimationNodeBlendSpace1D" id=57]
-blend_point_0/node = SubResource( 54 )
+[sub_resource type="AnimationNodeAnimation" id=58]
+animation = "run"
+
+[sub_resource type="AnimationNodeBlendSpace1D" id=59]
+blend_point_0/node = SubResource( 56 )
 blend_point_0/pos = 0.0
-blend_point_1/node = SubResource( 55 )
+blend_point_1/node = SubResource( 57 )
 blend_point_1/pos = 1.0
-blend_point_2/node = SubResource( 56 )
+blend_point_2/node = SubResource( 58 )
 blend_point_2/pos = -1.0
 
-[sub_resource type="AnimationNodeBlend3" id=58]
+[sub_resource type="AnimationNodeBlend3" id=60]
 
-[sub_resource type="AnimationNodeBlendTree" id=59]
-graph_offset = Vector2( -287, -107.984 )
-nodes/Animation/node = SubResource( 52 )
+[sub_resource type="AnimationNodeBlendTree" id=61]
+graph_offset = Vector2( -122, -108 )
+nodes/Animation/node = SubResource( 53 )
 nodes/Animation/position = Vector2( -130, -10 )
 "nodes/Animation 2/node" = SubResource( 50 )
 "nodes/Animation 2/position" = Vector2( 0, 220 )
 "nodes/Animation 3/node" = SubResource( 51 )
 "nodes/Animation 3/position" = Vector2( 290, 220 )
-nodes/double_jump/node = SubResource( 53 )
+"nodes/Animation 4/node" = SubResource( 52 )
+"nodes/Animation 4/position" = Vector2( 600, 240 )
+nodes/double_jump/node = SubResource( 54 )
 nodes/double_jump/position = Vector2( 540, 30 )
-nodes/output/position = Vector2( 810, -10 )
-nodes/x_sign/node = SubResource( 57 )
+nodes/hit/node = SubResource( 55 )
+nodes/hit/position = Vector2( 860, 40 )
+nodes/output/position = Vector2( 1080, 0 )
+nodes/x_sign/node = SubResource( 59 )
 nodes/x_sign/position = Vector2( -230, 140 )
-nodes/y_sign/node = SubResource( 58 )
+nodes/y_sign/node = SubResource( 60 )
 nodes/y_sign/position = Vector2( 210, 0 )
-node_connections = [ "output", 0, "double_jump", "double_jump", 0, "y_sign", "double_jump", 1, "Animation 3", "y_sign", 0, "Animation", "y_sign", 1, "x_sign", "y_sign", 2, "Animation 2" ]
+node_connections = [ "output", 0, "hit", "double_jump", 0, "y_sign", "double_jump", 1, "Animation 3", "hit", 0, "double_jump", "hit", 1, "Animation 4", "y_sign", 0, "Animation", "y_sign", 1, "x_sign", "y_sign", 2, "Animation 2" ]
 
-[sub_resource type="RectangleShape2D" id=60]
+[sub_resource type="RectangleShape2D" id=62]
 extents = Vector2( 6, 1 )
 
 [node name="Player" type="KinematicBody2D"]
@@ -383,7 +407,7 @@ script = ExtResource( 8 )
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 42 )
 animation = "idle"
-frame = 2
+frame = 9
 playing = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -399,10 +423,11 @@ anims/jump = SubResource( 48 )
 anims/run = SubResource( 49 )
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
-tree_root = SubResource( 59 )
+tree_root = SubResource( 61 )
 anim_player = NodePath("../AnimationPlayer")
 active = true
 parameters/double_jump/active = false
+parameters/hit/active = false
 parameters/x_sign/blend_position = 0
 parameters/y_sign/blend_amount = 0.0
 
@@ -424,7 +449,10 @@ collision_layer = 0
 collision_mask = 2048
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="JumpHitbox"]
-shape = SubResource( 60 )
+shape = SubResource( 62 )
+
+[node name="InvincibleTimer" type="Timer" parent="."]
+one_shot = true
 
 [connection signal="changed_state" from="." to="StateLabel" method="_on_Player_changed_state"]
 [connection signal="area_shape_entered" from="JumpHitbox" to="." method="_on_JumpHitbox_area_shape_entered"]

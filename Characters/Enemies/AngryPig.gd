@@ -74,10 +74,7 @@ func _on_AngryDetectionZone_body_shape_exited(body_id, body, body_shape, local_s
 
 # Angry Pig's Version of Get Hit
 func get_hit(damage : float):
-	health -= damage
-	
-	if(health <= 0):
-		queue_free()
+	self.health -= damage
 	
 	can_be_hit = false
 	current_state = STATE.HIT
@@ -96,5 +93,3 @@ func _hit_animation_finished():
 func set_waypoint_index(value):
 	waypoint_index = value
 	waypoint_position = get_node(waypoints[value]).position
-
-

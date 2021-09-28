@@ -93,6 +93,7 @@ jump={
 2d_physics/layer_4="Player"
 2d_physics/layer_5="Enemy"
 2d_physics/layer_7="PlayerHitbox"
+2d_physics/layer_8="PlayerHurtbox"
 2d_physics/layer_11="EnemyHitbox"
 2d_physics/layer_12="JumpHurtbox"
 
