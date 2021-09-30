@@ -1,6 +1,6 @@
 extends Node
 
-export(float) var gravity = 50
+export(float) var gravity = 40
 export(float) var terminal_velocity = 300
 export(bool) var should_randomize = true
 
