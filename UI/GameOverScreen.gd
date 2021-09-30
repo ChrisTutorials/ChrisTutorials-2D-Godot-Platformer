@@ -18,3 +18,7 @@ func _on_game_over():
 	screen.visible = true
 	screen.modulate = Color(1,1,1,0)
 	timer.start()
+
+
+func _on_Timer_timeout():
+	screen.modulate = Color(1,1,1,1)

@@ -184,6 +184,11 @@ func get_hit(damage : float):
 		self.health -= damage
 		self.current_state = STATE.HIT
 		invincible_timer.start()
+
+func die():
+	emit_signal("player_died", self)
+	queue_free()
+	
 	
 func on_hit_finished():
 	self.current_state = STATE.IDLE
@@ -191,7 +196,7 @@ func on_hit_finished():
 func _on_Player_tree_entered():
 	GameManager.active_player = self
 	
-	
+
 # SETTERS
 func set_current_state(new_state):
 	match(new_state):
