@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Art/Pixel Adventure 1/Background/Blue.png" type="Texture" id=1]
 [ext_resource path="res://Maps/pixel_adventure_terrain.tres" type="TileSet" id=2]
 [ext_resource path="res://Characters/Player.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Characters/Enemies/AngryPig.tscn" type="PackedScene" id=4]
 [ext_resource path="res://UI/GameOverScreen.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Camera/FollowCamera.tscn" type="PackedScene" id=6]
 
 [node name="Level1" type="Node2D"]
 
@@ -27,13 +28,16 @@ health = 1.0
 move_speed = 300.0
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="Player"]
-remote_path = NodePath("../../Camera2D")
+remote_path = NodePath("../../FollowCamera")
 
-[node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2( 173.421, -214.347 )
-current = true
-smoothing_enabled = true
-smoothing_speed = 10.0
+[node name="FollowCamera" parent="." instance=ExtResource( 6 )]
+position = Vector2( 174.167, -207.722 )
+
+[node name="TopLeft" parent="FollowCamera/Bounds" index="0"]
+position = Vector2( 19.6344, -629.499 )
+
+[node name="BottomRight" parent="FollowCamera/Bounds" index="1"]
+position = Vector2( 1152, -80 )
 
 [node name="AngryPig" parent="." instance=ExtResource( 4 )]
 position = Vector2( 337.628, -158.543 )
@@ -60,3 +64,5 @@ position = Vector2( 839.252, -140.12 )
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="GameOverScreen" parent="CanvasLayer" instance=ExtResource( 5 )]
+
+[editable path="FollowCamera"]
