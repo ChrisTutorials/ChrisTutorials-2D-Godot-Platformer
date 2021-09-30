@@ -17,6 +17,7 @@ onready var invincible_timer = $InvincibleTimer
 onready var wall_jump_timer = $WallJumpTimer
 
 signal changed_state(new_state_string, new_state_id)
+signal player_died(player)
 
 var velocity : Vector2
 
@@ -164,10 +165,8 @@ func _on_JumpHitbox_area_shape_entered(area_id, area, area_shape, local_shape):
 	var enemy = area.owner
 	
 	if(enemy is Enemy && enemy.can_be_hit):
-		if(jump_hitbox.global_position.y > area.global_position.y):
-			print("jump HB " + str(jump_hitbox.global_position))
-			print("body Pos" + str(area.global_position))
-			
+		# Check to see if we are hitting the enemy at the right position and velocity
+		if(jump_hitbox.global_position.y >= area.global_position.y - 1 && velocity.y > 0):
 			# Jump Attack
 			velocity.y = -enemy_bounce_impulse
 			
@@ -178,12 +177,20 @@ func _on_JumpHitbox_area_shape_entered(area_id, area, area_shape, local_shape):
 
 func get_hit(damage : float):
 	if(invincible_timer.is_stopped()):
+		# Tell the world that player suffered lethal damage
+		if(damage >= self.health):
+			emit_signal("player_died", self)
+		
 		self.health -= damage
 		self.current_state = STATE.HIT
 		invincible_timer.start()
 	
 func on_hit_finished():
 	self.current_state = STATE.IDLE
+	
+func _on_Player_tree_entered():
+	GameManager.active_player = self
+	
 	
 # SETTERS
 func set_current_state(new_state):
@@ -206,5 +213,4 @@ func set_current_state(new_state):
 	
 	current_state = new_state
 	emit_signal("changed_state", STATE.keys()[new_state], new_state)
-
 

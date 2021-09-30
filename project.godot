@@ -27,6 +27,7 @@ config/icon="res://icon.png"
 [autoload]
 
 GameSettings="*res://Singleton/GameSettings.tscn"
+GameManager="*res://Singleton/GameManager.tscn"
 
 [display]
 

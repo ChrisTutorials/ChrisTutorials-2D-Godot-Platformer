@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Art/Pixel Adventure 1/Background/Blue.png" type="Texture" id=1]
 [ext_resource path="res://Maps/pixel_adventure_terrain.tres" type="TileSet" id=2]
 [ext_resource path="res://Characters/Player.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Characters/Enemies/AngryPig.tscn" type="PackedScene" id=4]
+[ext_resource path="res://UI/GameOverScreen.tscn" type="PackedScene" id=5]
 
 [node name="Level1" type="Node2D"]
 
@@ -22,7 +23,7 @@ tile_data = PoolIntArray( -1900540, 6, 0, -1900539, 6, 2, -1835004, 6, 65536, -1
 
 [node name="Player" parent="." instance=ExtResource( 3 )]
 position = Vector2( 173.421, -214.347 )
-health = 20.0
+health = 1.0
 move_speed = 300.0
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="Player"]
@@ -38,6 +39,10 @@ smoothing_speed = 10.0
 position = Vector2( 337.628, -158.543 )
 waypoints = [ NodePath("../Waypoints/Waypoint1"), NodePath("../Waypoints/Waypoint2") ]
 
+[node name="AngryPig2" parent="." instance=ExtResource( 4 )]
+position = Vector2( 557.063, -143.206 )
+waypoints = [ NodePath("../Waypoints/Waypoint3"), NodePath("../Waypoints/Waypoint4") ]
+
 [node name="Waypoints" type="Node2D" parent="."]
 
 [node name="Waypoint1" type="Position2D" parent="Waypoints"]
@@ -48,3 +53,10 @@ position = Vector2( 434.082, -158.657 )
 
 [node name="Waypoint3" type="Position2D" parent="Waypoints"]
 position = Vector2( 460.786, -140.592 )
+
+[node name="Waypoint4" type="Position2D" parent="Waypoints"]
+position = Vector2( 839.252, -140.12 )
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="GameOverScreen" parent="CanvasLayer" instance=ExtResource( 5 )]
