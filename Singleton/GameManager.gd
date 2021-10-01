@@ -6,7 +6,7 @@ signal game_over()
 
 func set_active_player(player):
 	if(active_player != player):
-		if(active_player != null):
+		if(is_instance_valid(active_player)):
 			active_player.disconnect("player_died", self, "on_player_died")
 	
 		active_player = player

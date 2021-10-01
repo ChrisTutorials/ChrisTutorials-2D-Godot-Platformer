@@ -1,8 +1,13 @@
 extends KinematicBody2D
 
+signal health_changed(new_health)
+
 export(float) var health = 3 setget set_health
 
 func set_health(value):
+	if(health != value):
+		emit_signal("health_changed", value)
+	
 	health = value
 	
 	if(health <= 0):

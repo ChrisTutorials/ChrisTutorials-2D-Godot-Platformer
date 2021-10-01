@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://UI/HealthBar.tscn" type="PackedScene" id=2]
+[ext_resource path="res://UI/GameOverScreen.tscn" type="PackedScene" id=3]
+
+[node name="GameUI" type="CanvasLayer"]
+
+[node name="GameOverScreen" parent="." instance=ExtResource( 3 )]
+
+[node name="HealthBar" parent="." instance=ExtResource( 2 )]
