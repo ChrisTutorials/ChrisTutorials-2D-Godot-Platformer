@@ -1,0 +1,292 @@
+[gd_scene load_steps=39 format=2]
+
+[ext_resource path="res://Art/Pixel Adventure 2/Enemies/Bee/Idle (36x34).png" type="Texture" id=1]
+[ext_resource path="res://Art/Pixel Adventure 2/Enemies/Bee/Hit (36x34).png" type="Texture" id=2]
+[ext_resource path="res://Art/Pixel Adventure 2/Enemies/Bee/Attack (36x34).png" type="Texture" id=3]
+[ext_resource path="res://Characters/Enemies/Bee.gd" type="Script" id=4]
+[ext_resource path="res://Projectiles/BeeSting.tscn" type="PackedScene" id=5]
+
+[sub_resource type="AtlasTexture" id=67]
+atlas = ExtResource( 2 )
+region = Rect2( 0, 0, 36, 34 )
+
+[sub_resource type="AtlasTexture" id=68]
+atlas = ExtResource( 2 )
+region = Rect2( 36, 0, 36, 34 )
+
+[sub_resource type="AtlasTexture" id=69]
+atlas = ExtResource( 2 )
+region = Rect2( 72, 0, 36, 34 )
+
+[sub_resource type="AtlasTexture" id=70]
+atlas = ExtResource( 2 )
+region = Rect2( 108, 0, 36, 34 )
+
+[sub_resource type="AtlasTexture" id=71]
+atlas = ExtResource( 2 )
+region = Rect2( 144, 0, 36, 34 )
+
+[sub_resource type="AtlasTexture" id=72]
+atlas = ExtResource( 3 )
+region = Rect2( 0, 0, 36, 34 )
+
+[sub_resource type="AtlasTexture" id=73]
+atlas = ExtResource( 3 )
+region = Rect2( 36, 0, 36, 34 )
+
+[sub_resource type="AtlasTexture" id=74]
+atlas = ExtResource( 3 )
+region = Rect2( 72, 0, 36, 34 )
+
+[sub_resource type="AtlasTexture" id=75]
+atlas = ExtResource( 3 )
+region = Rect2( 108, 0, 36, 34 )
+
+[sub_resource type="AtlasTexture" id=76]
+atlas = ExtResource( 3 )
+region = Rect2( 144, 0, 36, 34 )
+
+[sub_resource type="AtlasTexture" id=77]
+atlas = ExtResource( 3 )
+region = Rect2( 180, 0, 36, 34 )
+
+[sub_resource type="AtlasTexture" id=78]
+atlas = ExtResource( 3 )
+region = Rect2( 216, 0, 36, 34 )
+
+[sub_resource type="AtlasTexture" id=79]
+atlas = ExtResource( 3 )
+region = Rect2( 252, 0, 36, 34 )
+
+[sub_resource type="AtlasTexture" id=80]
+atlas = ExtResource( 1 )
+region = Rect2( 0, 0, 36, 34 )
+
+[sub_resource type="AtlasTexture" id=81]
+atlas = ExtResource( 1 )
+region = Rect2( 36, 0, 36, 34 )
+
+[sub_resource type="AtlasTexture" id=82]
+atlas = ExtResource( 1 )
+region = Rect2( 72, 0, 36, 34 )
+
+[sub_resource type="AtlasTexture" id=83]
+atlas = ExtResource( 1 )
+region = Rect2( 108, 0, 36, 34 )
+
+[sub_resource type="AtlasTexture" id=84]
+atlas = ExtResource( 1 )
+region = Rect2( 144, 0, 36, 34 )
+
+[sub_resource type="AtlasTexture" id=85]
+atlas = ExtResource( 1 )
+region = Rect2( 180, 0, 36, 34 )
+
+[sub_resource type="SpriteFrames" id=48]
+animations = [ {
+"frames": [ SubResource( 67 ), SubResource( 68 ), SubResource( 69 ), SubResource( 70 ), SubResource( 71 ) ],
+"loop": true,
+"name": "hit",
+"speed": 10.0
+}, {
+"frames": [ SubResource( 72 ), SubResource( 73 ), SubResource( 74 ), SubResource( 75 ), SubResource( 76 ), SubResource( 77 ), SubResource( 78 ), SubResource( 79 ) ],
+"loop": true,
+"name": "attack",
+"speed": 20.0
+}, {
+"frames": [ SubResource( 80 ), SubResource( 81 ), SubResource( 82 ), SubResource( 83 ), SubResource( 84 ), SubResource( 85 ) ],
+"loop": true,
+"name": "idle",
+"speed": 20.0
+} ]
+
+[sub_resource type="RectangleShape2D" id=49]
+extents = Vector2( 10, 12.5634 )
+
+[sub_resource type="AnimationNodeAnimation" id=93]
+animation = "attack"
+
+[sub_resource type="AnimationNodeAnimation" id=88]
+animation = "idle"
+
+[sub_resource type="AnimationNodeAnimation" id=89]
+animation = "hit"
+
+[sub_resource type="AnimationNodeOneShot" id=86]
+fadein_time = 0.0
+fadeout_time = 0.0
+
+[sub_resource type="AnimationNodeOneShot" id=53]
+fadein_time = 0.0
+fadeout_time = 0.0
+
+[sub_resource type="AnimationNodeBlendTree" id=59]
+graph_offset = Vector2( -363, 64.5 )
+nodes/Animation/node = SubResource( 89 )
+nodes/Animation/position = Vector2( 289.5, 378.5 )
+"nodes/Animation 2/node" = SubResource( 93 )
+"nodes/Animation 2/position" = Vector2( 0, 350 )
+"nodes/Animation 3/node" = SubResource( 88 )
+"nodes/Animation 3/position" = Vector2( -17, 185.5 )
+nodes/attack/node = SubResource( 86 )
+nodes/attack/position = Vector2( 240, 160 )
+nodes/hit/node = SubResource( 53 )
+nodes/hit/position = Vector2( 510, 170 )
+nodes/output/position = Vector2( 740, 170 )
+node_connections = [ "hit", 0, "attack", "hit", 1, "Animation", "attack", 0, "Animation 3", "attack", 1, "Animation 2", "output", 0, "hit" ]
+
+[sub_resource type="Animation" id=92]
+resource_name = "attack"
+length = 0.4
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath("../Bee/AnimatedSprite:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ "attack" ]
+}
+tracks/1/type = "method"
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0.4 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "_attack_animation_finished"
+} ]
+}
+
+[sub_resource type="Animation" id=60]
+resource_name = "hit"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("../Bee/AnimatedSprite:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ "hit" ]
+}
+tracks/1/type = "method"
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0.5 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "_hit_animation_finished"
+} ]
+}
+
+[sub_resource type="Animation" id=62]
+length = 0.05
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("../Bee/AnimatedSprite:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ "idle" ]
+}
+
+[sub_resource type="RectangleShape2D" id=65]
+extents = Vector2( 14, 3 )
+
+[sub_resource type="RectangleShape2D" id=66]
+extents = Vector2( 10, 8 )
+
+[sub_resource type="CircleShape2D" id=90]
+radius = 100.0
+
+[node name="Bee" type="KinematicBody2D"]
+collision_layer = 16
+script = ExtResource( 4 )
+projectile = ExtResource( 5 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+frames = SubResource( 48 )
+animation = "idle"
+frame = 1
+playing = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 0, 2 )
+scale = Vector2( 1.19284, 0.938679 )
+shape = SubResource( 49 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+tree_root = SubResource( 59 )
+anim_player = NodePath("../AnimationPlayer")
+active = true
+parameters/attack/active = false
+parameters/hit/active = false
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/attack = SubResource( 92 )
+anims/hit = SubResource( 60 )
+anims/idle = SubResource( 62 )
+
+[node name="JumpHurtbox" type="Area2D" parent="."]
+position = Vector2( 0, -10 )
+collision_layer = 2048
+collision_mask = 0
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="JumpCollisionShape" type="CollisionShape2D" parent="JumpHurtbox"]
+scale = Vector2( 0.99896, 1.01679 )
+shape = SubResource( 65 )
+
+[node name="EnemyCollisionHitbox" type="Area2D" parent="."]
+position = Vector2( 0, 2 )
+monitorable = false
+collision_layer = 0
+collision_mask = 8
+
+[node name="EnemyCollisionShape" type="CollisionShape2D" parent="EnemyCollisionHitbox"]
+shape = SubResource( 66 )
+
+[node name="AttackTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="ProjectileAttackArea" type="Area2D" parent="."]
+monitorable = false
+collision_layer = 0
+collision_mask = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ProjectileAttackArea"]
+shape = SubResource( 90 )
+
+[node name="LaunchPosition" type="Position2D" parent="."]
+position = Vector2( 0.144409, 14.1521 )
+
+[connection signal="body_shape_entered" from="EnemyCollisionHitbox" to="." method="_on_EnemyCollisionHitbox_body_shape_entered"]
+[connection signal="body_shape_entered" from="ProjectileAttackArea" to="." method="_on_ProjectileAttackArea_body_shape_entered"]
+[connection signal="body_shape_exited" from="ProjectileAttackArea" to="." method="_on_ProjectileAttackArea_body_shape_exited"]
